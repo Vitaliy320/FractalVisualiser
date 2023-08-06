@@ -19,22 +19,11 @@
 #include "surface.h"
 #include "saveImage.h"
 #include "rgb.h"
+#include "smoothRenderer.h"
+#include "utilities.h"
 
 
-bool video {false};
-bool coloured { false };
 std::mutex gMutex;
-const int WIDTH { 1920 };   // Width of the window 1200
-const int HEIGHT { 1080 };  // Height of the window 800
-const int MAX_ITERATIONS { 80 }; // Maximum number of iterations for Mandelbrot algorithm
-
-const int BYTES_PER_PIXEL { 3 };
-
-const double REAL_MIN { -1.6 * 2 };
-const double REAL_MAX { 1.6 * 2 };
-
-const double IMAGINARY_MIN { -0.9 * 2 };
-const double IMAGINARY_MAX { 0.9 * 2 };
 
 // const double REAL_MIN { -2 };
 // const double REAL_MAX { 1 };
@@ -42,26 +31,7 @@ const double IMAGINARY_MAX { 0.9 * 2 };
 // const double IMAGINARY_MIN { -1 };
 // const double IMAGINARY_MAX { 1 };
 
-double mandelbrot(Complex c){
-    Complex zn(0.0, 0.0);
-    int n = 0;
-    double returnValue;
-    while (n < MAX_ITERATIONS){
-        n++;
-        // zn.imaginary /= std::log10(zn.absolute());
-        // zn.imaginary /= std::sin(zn.real);
-        zn = (c - zn.square()).powerN(10);
-        // zn = zn + c.square();
-        // if (zn.absolute() > std::sin(c.absolute())){
-        if (zn.absolute() > 2.0){
-            if (n == MAX_ITERATIONS){
-                return MAX_ITERATIONS;
-            }
-            return n + 1 - std::log10(std::log2(zn.absolute()));
-        }
-    }
-    return n;
-}
+
 
 
 std::string reverseString(const std::string& input) {
@@ -171,7 +141,7 @@ void calculateMandelbrot(
     RGB currentRGB;
 
     for (int x = x0; x < x1; x++){
-        for (int y = x0; y < y1; y++){
+        for (int y = y0; y < y1; y++){
             xValue = x * static_cast<double>(rMax - rMin) / WIDTH + rMin;
             yValue = y * static_cast<double>(imMax - imMin) / HEIGHT + imMin;
 
@@ -348,15 +318,15 @@ int main(){
     SDL_Event event;
     SDL_Renderer *renderer;
     SDL_Window *window;
+
     double rMin {REAL_MIN};
     double rMax {REAL_MAX};
     double imMin {IMAGINARY_MIN};
     double imMax {IMAGINARY_MAX};
     int iteration {0};
+
     std::map<std::string, RGB> pixelColourMap;
     std::map<std::pair<int, int>, std::pair<double, double>> pixelPointMap;
-
-
 
     std::string key;
 
