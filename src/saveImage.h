@@ -11,6 +11,7 @@
 #include "rgb.h"
 #include "EasyBMP.h"
 #include "hsv.h"
+#include "utilities.h"
 // #include "png.hpp"
 
 
@@ -21,5 +22,4 @@ void generateBitmapImage(std::vector<const char*> rgbs, int height, int width, c
 unsigned char* createBitmapFileHeader(int height, int stride);
 unsigned char* createBitmapInfoHeader(int height, int width);
 void _separateStringToInts(const std::string& str, int& firstInt, int& secondInt);
-RGB HSVtoRGB(HSV hsv);
 // void saveToPNG(std::vector<RGB> rgbs, int width, int height, const char* path);

@@ -14,3 +14,7 @@ float RGB::getGreen(){
 float RGB::getBlue(){
     return _blue;
 }
+
+std::tuple<float, float, float> RGB::getRGBTuple(){
+    return std::tuple<float, float, float>(_red, _green, _blue);
+}

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <tuple>
+
 class RGB{
 public:
     RGB();
@@ -7,6 +9,7 @@ public:
     float getRed();
     float getGreen();
     float getBlue();
+    std::tuple<float, float, float> getRGBTuple();
 private:
     float _red;
     float _green;
