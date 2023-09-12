@@ -18,4 +18,5 @@ public:
     Complex square();
     Complex multiply(Complex z);
     Complex powerN(int power);
+    Complex numberToComplexPower(double a);
 };

@@ -3,7 +3,7 @@
 class HSV{
 public:
     HSV();
-    HSV(int hue, int saturation, int value);
+    HSV(float hue, float saturation, float value);
     float getHue();
     float getSaturation();
     float getValue();

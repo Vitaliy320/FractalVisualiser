@@ -57,3 +57,10 @@ Complex Complex::powerN(int power){
     }
     return *this;
 }
+
+Complex Complex::numberToComplexPower(double a){
+    return Complex(
+        std::pow(a, this->real) * std::cos(this->imaginary * std::log(a)),
+        std::pow(a, this->real) * std::sin(this->imaginary * std::log(a))
+    );
+}

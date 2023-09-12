@@ -5,6 +5,16 @@
 #include <SDL2/SDL_pixels.h>
 #include <map>
 #include <string>
+#include <memory>
+#include <vector>
+#include <tuple>
+#include <utility>
+#include <cmath>
+#include <mutex>
+#include <thread>
+#include <queue>
+#include <omp.h>
+#include <condition_variable>
 
 #include "constants.h"
 #include "pixel.h"
@@ -13,7 +23,11 @@
 class SmoothRenderer{
 public:
     void init();
+    void renderFramesOpenMP();
     void renderFrames();
+    void renderFramesSequentially();
+    void draw();
+    void functionTest(int & iteration, int & threadID);
 
 private:
     SDL_Event _event;
@@ -24,5 +38,13 @@ private:
     double _imMin;
     double _imMax;
     int _maxIterations;
-    std::map<std::string, Pixel> _pixelMap;
+    int _width;
+    int _height;
+    std::vector<std::shared_ptr<Pixel>> _pixels;
+    std::map<std::string, std::shared_ptr<Pixel>> _pixelMap;
+    std::queue<std::vector<Pixel>> _queue;
+
+    void _calculatePixels(int firstIndex, int lastIndex, int& iteration, int& threadId);
+    void _calculationThread();
+    void _rendererThread();
 };
